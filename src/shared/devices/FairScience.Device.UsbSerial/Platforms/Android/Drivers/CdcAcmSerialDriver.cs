@@ -8,13 +8,15 @@
 using Android.Hardware.Usb;
 using Android.OS;
 using Android.Util;
-using FairScience.Device.UsbSerial.Platforms.Android.Extensions;
+using FairScience.Device.Serial;
+using FairScience.Device.Serial.Platforms.Android.Extensions;
 using Java.Lang;
 using Java.Nio;
 using IOException = Java.IO.IOException;
 using Math = System.Math;
 
-namespace FairScience.Device.UsbSerial.Platforms.Android.Drivers;
+// ReSharper disable once CheckNamespace
+namespace FairScience.Device.Serial.Platforms.Android.Drivers;
 
 public class CdcAcmSerialDriver : UsbSerialDriver
 {
@@ -50,7 +52,10 @@ public class CdcAcmSerialDriver : UsbSerialDriver
 
 
         // ReSharper disable once TooManyDependencies
-        public CdcAcmSerialPort(UsbDevice device, int portNumber, IUsbSerialDriver driver,
+        public CdcAcmSerialPort(
+            IUsbSerialDriver driver,
+            IN
+            int portNumber, 
             bool? enableAsyncReads = null) :
             base(device, portNumber, driver)
         {
@@ -77,7 +82,7 @@ public class CdcAcmSerialDriver : UsbSerialDriver
 
             try
             {
-                if (1 == mDevice.InterfaceCount)
+                if (1 == Device.InterfaceCount)
                 {
                     Log.Debug(TAG, "device might be castrated ACM device, trying single interface logic");
                     OpenSingleInterface();
@@ -110,10 +115,10 @@ public class CdcAcmSerialDriver : UsbSerialDriver
             // the following code is inspired by the cdc-acm driver
             // in the linux kernel
 
-            _controlInterface = mDevice.GetInterface(0);
+            _controlInterface = Device.GetInterface(0);
             Log.Debug(TAG, "Control iface=" + _controlInterface);
 
-            _dataInterface = mDevice.GetInterface(0);
+            _dataInterface = Device.GetInterface(0);
             Log.Debug(TAG, "data iface=" + _dataInterface);
 
             if (!Connection.ClaimInterface(_controlInterface, true))
@@ -192,9 +197,9 @@ public class CdcAcmSerialDriver : UsbSerialDriver
 
         private void OpenInterface()
         {
-            Log.Debug(TAG, "claiming interfaces, count=" + mDevice.InterfaceCount);
+            Log.Debug(TAG, "claiming interfaces, count=" + Device.InterfaceCount);
 
-            _controlInterface = mDevice.GetInterface(0);
+            _controlInterface = Device.GetInterface(0);
             Log.Debug(TAG, "Control iface=" + _controlInterface);
             // class should be USB_CLASS_COMM
 
@@ -207,7 +212,7 @@ public class CdcAcmSerialDriver : UsbSerialDriver
             Log.Debug(TAG, "Control endpoint direction: " + _controlEndpoint.Direction);
 
             Log.Debug(TAG, "Claiming data interface.");
-            _dataInterface = mDevice.GetInterface(1);
+            _dataInterface = Device.GetInterface(1);
             Log.Debug(TAG, "data iface=" + _dataInterface);
             // class should be USB_CLASS_CDC_DATA
 

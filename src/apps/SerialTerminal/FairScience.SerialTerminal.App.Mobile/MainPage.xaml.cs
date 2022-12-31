@@ -1,24 +1,12 @@
-﻿namespace FairScience.SerialTerminal.App.Mobile
+﻿namespace FairScience.SerialTerminal.App.Mobile;
+
+public partial class MainPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage() =>
+        InitializeComponent();
+    
+    private void OnScanClicked(object sender, EventArgs e)
     {
-        int count = 0;
-
-        public MainPage()
-        {
-            InitializeComponent();
-        }
-
-        private void OnCounterClicked(object sender, EventArgs e)
-        {
-            count++;
-
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
-
-            SemanticScreenReader.Announce(CounterBtn.Text);
-        }
+        //SemanticScreenReader.Announce(ScanButton.Text);
     }
 }

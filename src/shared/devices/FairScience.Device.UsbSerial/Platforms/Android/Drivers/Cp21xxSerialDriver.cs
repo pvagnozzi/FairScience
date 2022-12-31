@@ -7,17 +7,15 @@
 
 using Android.Hardware.Usb;
 using Android.Util;
+using FairScience.Device.Serial;
 
-namespace FairScience.Device.UsbSerial.Platforms.Android.Drivers;
+// ReSharper disable once CheckNamespace
+namespace FairScience.Device.Serial.Platforms.Android.Drivers;
 
 public class Cp21xxSerialDriver : UsbSerialDriver
 {
-    private const string TAG = nameof(Cp21xxSerialDriver);
 
-    public Cp21xxSerialDriver(UsbDevice device) : base(device)
-    {
-        Ports.Add(new Cp21xxSerialPort(device, 0, this));
-    }
+ 
 
     public class Cp21xxSerialPort : CommonUsbSerialPort
     {
@@ -25,15 +23,9 @@ public class Cp21xxSerialDriver : UsbSerialDriver
 
         private const int USB_WRITE_TIMEOUT_MILLIS = 5000;
 
-        /*
-            * Configuration Request Types
-            */
         private const int REQTYPE_HOST_TO_DEVICE = 0x41;
         private const int REQTYPE_DEVICE_TO_HOST = 0xc1;
 
-        /*
-            * Configuration Request Codes
-            */
         private const int SILABSER_IFC_ENABLE_REQUEST_CODE = 0x00;
         private const int SILABSER_SET_BAUDDIV_REQUEST_CODE = 0x01;
         private const int SILABSER_SET_LINE_CTL_REQUEST_CODE = 0x03;
@@ -44,25 +36,18 @@ public class Cp21xxSerialDriver : UsbSerialDriver
         private const int FLUSH_READ_CODE = 0x0a;
         private const int FLUSH_WRITE_CODE = 0x05;
 
-        private const int GET_MODEM_STATUS_REQUEST = 0x08; // 0x08 Get modem status. 
+        private const int GET_MODEM_STATUS_REQUEST = 0x08;
         private const int MODEM_STATUS_CTS = 0x10;
         private const int MODEM_STATUS_DSR = 0x20;
         private const int MODEM_STATUS_RI = 0x40;
         private const int MODEM_STATUS_CD = 0x80;
-        /*
-            * SILABSER_IFC_ENABLE_REQUEST_CODE
-            */
+        
         private const int UART_ENABLE = 0x0001;
         private const int UART_DISABLE = 0x0000;
 
-        /*
-            * SILABSER_SET_BAUDDIV_REQUEST_CODE
-            */
+        
         private const int BAUD_RATE_GEN_FREQ = 0x384000;
 
-        /*
-            * SILABSER_SET_MHS_REQUEST_CODE
-            */
         private const int MCR_DTR = 0x0001;
         private const int MCR_RTS = 0x0002;
         private const int MCR_ALL = 0x0003;
@@ -93,12 +78,12 @@ public class Cp21xxSerialDriver : UsbSerialDriver
 
             SetConnection(connection);
             var opened = false;
-            var dataIface = mDevice.GetInterface(mDevice.InterfaceCount - 1);
+            var dataIface = Device.GetInterface(Device.InterfaceCount - 1);
             try
             {
-                for (var i = 0; i < mDevice.InterfaceCount; i++)
+                for (var i = 0; i < Device.InterfaceCount; i++)
                 {
-                    var usbIface = mDevice.GetInterface(i);
+                    var usbIface = Device.GetInterface(i);
                     Log.Debug(TAG,
                         Connection!.ClaimInterface(usbIface, true)
                             ? $"claimInterface {i} SUCCESS"
@@ -132,7 +117,6 @@ public class Cp21xxSerialDriver : UsbSerialDriver
                 SetConfigSingle(SILABSER_IFC_ENABLE_REQUEST_CODE, UART_ENABLE);
                 SetConfigSingle(SILABSER_SET_MHS_REQUEST_CODE, MCR_ALL | CONTROL_WRITE_DTR | CONTROL_WRITE_RTS);
                 SetConfigSingle(SILABSER_SET_BAUDDIV_REQUEST_CODE, BAUD_RATE_GEN_FREQ / DEFAULT_BAUD_RATE);
-                //            setParameters(DEFAULT_BAUD_RATE, DEFAULT_DATA_BITS, DEFAULT_STOP_BITS, DEFAULT_PARITY);
                 opened = true;
             }
             finally
@@ -317,17 +301,10 @@ public class Cp21xxSerialDriver : UsbSerialDriver
             SetConfigSingle(SILABSER_SET_MHS_REQUEST_CODE, (value ? MCR_RTS : 0) | CONTROL_WRITE_RTS);
         
 
-        public override bool PurgeHwBuffers(bool purgeReadBuffers, bool purgeWriteBuffers)
+        public override void  PurgeBuffers()
         {
-            var value = (purgeReadBuffers ? FLUSH_READ_CODE : 0)
-                    | (purgeWriteBuffers ? FLUSH_WRITE_CODE : 0);
-
-            if (value != 0)
-            {
-                SetConfigSingle(SILABSER_FLUSH_REQUEST_CODE, value);
-            }
-
-            return true;
+            const int value = FLUSH_READ_CODE | FLUSH_WRITE_CODE;
+            SetConfigSingle(SILABSER_FLUSH_REQUEST_CODE, value);
         }
     }
 

@@ -53,7 +53,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\..\..\shared\devices\FairScience.Device.UsbSerial\FairScience.Device.UsbSerial.csproj" />
+	  <ProjectReference Include="..\..\..\shared\devices\FairScience.Device.UsbSerial\FairScience.Device.Serial.csproj" />
 	</ItemGroup>
 
 </Project>

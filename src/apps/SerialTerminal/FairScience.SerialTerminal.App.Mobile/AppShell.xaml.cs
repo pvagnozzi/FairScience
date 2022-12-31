@@ -1,10 +1,9 @@
-﻿namespace FairScience.SerialTerminal.App.Mobile
+﻿namespace FairScience.SerialTerminal.App.Mobile;
+
+public partial class AppShell
 {
-    public partial class AppShell : Shell
+    public AppShell()
     {
-        public AppShell()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

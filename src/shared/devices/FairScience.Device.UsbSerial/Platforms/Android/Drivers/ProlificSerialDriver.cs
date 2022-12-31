@@ -7,12 +7,14 @@
 
 using Android.Hardware.Usb;
 using Android.Util;
+using FairScience.Device.Serial;
 using Java.Lang;
 using Boolean = System.Boolean;
 using Exception = Java.Lang.Exception;
 using Thread = System.Threading.Thread;
 
-namespace FairScience.Device.UsbSerial.Platforms.Android.Drivers;
+// ReSharper disable once CheckNamespace
+namespace FairScience.Device.Serial.Platforms.Android.Drivers;
 
 public class ProlificSerialDriver : UsbSerialDriver
 {
@@ -168,7 +170,7 @@ public class ProlificSerialDriver : UsbSerialDriver
         }
 
         private void ResetDevice() => 
-            PurgeHwBuffers(true, true);
+            PurgeBuffers(true, true);
             
 
         private void CtrlOut(int request, int value, int index, byte[] data) =>
@@ -301,7 +303,7 @@ public class ProlificSerialDriver : UsbSerialDriver
                 throw new IOException("Already open");
             }
 
-            var usbInterface = mDevice.GetInterface(0);
+            var usbInterface = Device.GetInterface(0);
 
             if (!connection.ClaimInterface(usbInterface, true))
             {
@@ -361,7 +363,7 @@ public class ProlificSerialDriver : UsbSerialDriver
                 var deviceVersion = (rawDescriptors[13] << 8) + rawDescriptors[12];
                 var maxPacketSize0 = rawDescriptors[7];
 
-                if (mDevice.DeviceClass == UsbClass.Comm || maxPacketSize0 != 64)
+                if (Device.DeviceClass == UsbClass.Comm || maxPacketSize0 != 64)
                 {
                     _deviceType = DeviceType.DEVICE_TYPE_01;
                 }
@@ -432,7 +434,7 @@ public class ProlificSerialDriver : UsbSerialDriver
             {
                 try
                 {
-                    Connection.ReleaseInterface(mDevice.GetInterface(0));
+                    Connection.ReleaseInterface(Device.GetInterface(0));
                 }
                 finally
                 {
@@ -595,7 +597,7 @@ public class ProlificSerialDriver : UsbSerialDriver
             SetControlLines(newControlLinesValue);
         }
 
-        public override bool PurgeHwBuffers(Boolean purgeReadBuffers, Boolean purgeWriteBuffers)
+        public override bool PurgeBuffers(Boolean purgeReadBuffers, Boolean purgeWriteBuffers)
         {
             if (_deviceType == DeviceType.DEVICE_TYPE_HXN)
             {

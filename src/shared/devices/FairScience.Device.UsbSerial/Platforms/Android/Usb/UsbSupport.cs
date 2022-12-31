@@ -5,13 +5,9 @@
  * Portions of this library are based on Xamarin USB Serial for Android (https://bitbucket.org/lusovu/xamarinusbserial).
  */
 
-namespace FairScience.Device.UsbSerial.Platforms.Android.Drivers;
+// ReSharper disable once CheckNamespace
+namespace FairScience.Device.Serial.Platforms.Android.Drivers;
 
-/// <summary>
-/// Fixes Xamarin bug with missing constants
-/// https://forums.xamarin.com/discussion/comment/197948/#Comment_197948
-/// Filed as https://bugzilla.xamarin.com/show_bug.cgi?id=47663
-/// </summary>
 public class UsbSupport : Java.Lang.Object
 {
     public const int UsbClassAppSpec = 254;

@@ -7,6 +7,7 @@
 
 using Android.Hardware.Usb;
 using Android.Util;
+using FairScience.Device.Serial;
 using FairScience.Device.UsbSerial.Platforms.Android.Drivers;
 
 namespace FairScience.Device.UsbSerial.Platforms.Android.Extensions;

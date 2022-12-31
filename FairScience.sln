@@ -10,11 +10,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{5D378A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devices", "devices", "{FD3184E9-D3CD-4C36-8BCF-13D8341F487C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairScience.Device.UsbSerial", "src\shared\devices\FairScience.Device.UsbSerial\FairScience.Device.UsbSerial.csproj", "{28A5A0F2-3664-49FB-9984-95B60DC59108}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairScience.Device.Serial", "src\shared\devices\FairScience.Device.UsbSerial\FairScience.Device.Serial.csproj", "{28A5A0F2-3664-49FB-9984-95B60DC59108}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SerialTerminal", "SerialTerminal", "{E5858629-B011-4CE9-B100-95A38F912432}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairScience.SerialTerminal.App.Mobile", "src\apps\SerialTerminal\FairScience.SerialTerminal.App.Mobile\FairScience.SerialTerminal.App.Mobile.csproj", "{3607918C-493C-4C20-8BD3-4E7A46483500}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FairScience.SerialTerminal.App.Mobile", "src\apps\SerialTerminal\FairScience.SerialTerminal.App.Mobile\FairScience.SerialTerminal.App.Mobile.csproj", "{3607918C-493C-4C20-8BD3-4E7A46483500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FairScience", "src\shared\FairScience\FairScience.csproj", "{114937F2-0C0F-4B9C-889F-18730B450326}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{3607918C-493C-4C20-8BD3-4E7A46483500}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3607918C-493C-4C20-8BD3-4E7A46483500}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3607918C-493C-4C20-8BD3-4E7A46483500}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{114937F2-0C0F-4B9C-889F-18730B450326}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{114937F2-0C0F-4B9C-889F-18730B450326}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{114937F2-0C0F-4B9C-889F-18730B450326}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{114937F2-0C0F-4B9C-889F-18730B450326}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +49,7 @@ Global
 		{28A5A0F2-3664-49FB-9984-95B60DC59108} = {FD3184E9-D3CD-4C36-8BCF-13D8341F487C}
 		{E5858629-B011-4CE9-B100-95A38F912432} = {18E7BBE2-BDEA-4F48-8760-7743EA25C8A9}
 		{3607918C-493C-4C20-8BD3-4E7A46483500} = {E5858629-B011-4CE9-B100-95A38F912432}
+		{114937F2-0C0F-4B9C-889F-18730B450326} = {5D378A51-E486-4C00-AE38-FFDBAE918D7A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C19BFE56-3AE8-4E1A-8E6C-7F57C0D9C910}

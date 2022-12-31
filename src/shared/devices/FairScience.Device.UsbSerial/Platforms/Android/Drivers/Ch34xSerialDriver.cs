@@ -7,8 +7,10 @@
 
 using Android.Hardware.Usb;
 using Android.Util;
+using FairScience.Device.Serial;
 
-namespace FairScience.Device.UsbSerial.Platforms.Android.Drivers;
+// ReSharper disable once CheckNamespace
+namespace FairScience.Device.Serial.Platforms.Android.Drivers;
 
 public class Ch34xSerialDriver : UsbSerialDriver
 {
@@ -61,9 +63,9 @@ public class Ch34xSerialDriver : UsbSerialDriver
             var opened = false;
             try
             {
-                for (var i = 0; i < mDevice.InterfaceCount; i++)
+                for (var i = 0; i < Device.InterfaceCount; i++)
                 {
-                    var usbIface = mDevice.GetInterface(i);
+                    var usbIface = Device.GetInterface(i);
                     if (Connection!.ClaimInterface(usbIface, true))
                     {
                         Log.Debug(TAG, "claimInterface " + i + " SUCCESS");
@@ -74,7 +76,7 @@ public class Ch34xSerialDriver : UsbSerialDriver
                     }
                 }
 
-                var dataIface = mDevice.GetInterface(mDevice.InterfaceCount - 1);
+                var dataIface = Device.GetInterface(Device.InterfaceCount - 1);
                 for (var i = 0; i < dataIface.EndpointCount; i++)
                 {
                     var ep = dataIface.GetEndpoint(i);
@@ -127,8 +129,6 @@ public class Ch34xSerialDriver : UsbSerialDriver
             {
                 throw new IOException("Already closed");
             }
-
-            // TODO: nothing sended on close, maybe needed?
 
             try
             {
@@ -385,7 +385,7 @@ public class Ch34xSerialDriver : UsbSerialDriver
             SetControlLines();
         }
 
-        public override bool PurgeHwBuffers(bool flushReadBuffers, bool flushWriteBuffers) => true;
+        public override bool PurgeBuffers(bool flushReadBuffers, bool flushWriteBuffers) => true;
     }
 
     public static Dictionary<int, int[]> GetSupportedDevices() =>

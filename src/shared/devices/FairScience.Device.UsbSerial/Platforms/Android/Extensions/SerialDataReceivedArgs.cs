@@ -5,6 +5,8 @@
  * Portions of this library are based on Xamarin USB Serial for Android (https://bitbucket.org/lusovu/xamarinusbserial).
  */
 
+
+// ReSharper disable once CheckNamespace
 namespace FairScience.Device.UsbSerial.Platforms.Android.Extensions;
 
 public class SerialDataReceivedArgs : EventArgs

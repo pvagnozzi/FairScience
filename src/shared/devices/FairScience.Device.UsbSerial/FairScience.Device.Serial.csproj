@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net7.0;net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
@@ -16,5 +16,15 @@
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Platforms\Android\Drivers\CdcAcmSerialDriver.cs" />
+	  <Compile Remove="Platforms\Android\Drivers\Ch34xSerialDriver.cs" />
+	  <Compile Remove="Platforms\Android\Drivers\Cp21xxSerialDriver.cs" />
+	  <Compile Remove="Platforms\Android\Drivers\ProlificSerialDriver.cs" />
+	  <Compile Remove="Platforms\Android\Extensions\SerialDataReceivedArgs.cs" />
+	  <Compile Remove="Platforms\Android\Extensions\SerialInputOutputManager.cs" />
+	  <Compile Remove="Platforms\Android\Extensions\UsbSerialPortInfo.cs" />
+	</ItemGroup>
 
 </Project>

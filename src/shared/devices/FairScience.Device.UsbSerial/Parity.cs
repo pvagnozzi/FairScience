@@ -5,7 +5,7 @@
  * Portions of this library are based on Xamarin USB Serial for Android (https://bitbucket.org/lusovu/xamarinusbserial).
  */
 
-namespace FairScience.Device.UsbSerial.Platforms.Android.Drivers;
+namespace FairScience.Device.Serial;
 
 public enum Parity
 {
@@ -14,12 +14,5 @@ public enum Parity
     Even = 2,
     Mark = 3,
     Space = 4,
-    NotSet = -1
-}
-public enum StopBits
-{
-    One = 1,
-    OnePointFive = 3,
-    Two = 2,
     NotSet = -1
 }

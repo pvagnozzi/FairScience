@@ -29,10 +29,10 @@
                 HorizontalOptions="Center" />
 
             <Button
-                x:Name="CounterBtn"
-                Text="Click me"
+                x:Name="ScanButton"
+                Text="Scan"
                 SemanticProperties.Hint="Counts the number of times you click"
-                Clicked="OnCounterClicked"
+                Clicked="OnScanClicked"
                 HorizontalOptions="Center" />
 
         </VerticalStackLayout>

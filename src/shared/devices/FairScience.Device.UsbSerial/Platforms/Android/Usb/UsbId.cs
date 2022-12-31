@@ -5,16 +5,8 @@
  * Portions of this library are based on Xamarin USB Serial for Android (https://bitbucket.org/lusovu/xamarinusbserial).
  */
 
-namespace FairScience.Device.UsbSerial.Platforms.Android.Drivers;
+namespace FairScience.Device.Serial.Platforms.Android.Usb;
 
-/**
-    * Registry of USB vendor/product ID constants.
-    *
-    * Culled from various sources; see
-    * <a href="http://www.linux-usb.org/usb.ids">usb.ids</a> for one listing.
-    *
-    * @author mike wakerly (opensource@hoho.com)
-    */
 public static class UsbId
 {
     public const int VENDOR_FTDI = 0x0403;
@@ -22,7 +14,7 @@ public static class UsbId
     public const int FTDI_FT2232H = 0x6010;
     public const int FTDI_FT4232H = 0x6011;
     public const int FTDI_FT232H = 0x6014;
-    public const int FTDI_FT231X = 0x6015; // same ID for FT230X, FT231X, FT234XD
+    public const int FTDI_FT231X = 0x6015;
 
     public const int VENDOR_ATMEL = 0x03EB;
     public const int ATMEL_LUFA_CDC_DEMO_APP = 0x2044;
@@ -53,26 +45,25 @@ public static class UsbId
 
     public const int VENDOR_PROLIFIC = 0x067b;
     public const int PROLIFIC_PL2303 = 0x2303;
-    public const int PROLIFIC_PL2303GC = 0x23a3; // device type HXN
-    public const int PROLIFIC_PL2303GB = 0x23b3; // "
-    public const int PROLIFIC_PL2303GT = 0x23c3; // "
-    public const int PROLIFIC_PL2303GL = 0x23d3; // "
-    public const int PROLIFIC_PL2303GE = 0x23e3; // "
-    public const int PROLIFIC_PL2303GS = 0x23f3; // "
+    public const int PROLIFIC_PL2303GC = 0x23a3;
+    public const int PROLIFIC_PL2303GB = 0x23b3;
+    public const int PROLIFIC_PL2303GT = 0x23c3;
+    public const int PROLIFIC_PL2303GL = 0x23d3;
+    public const int PROLIFIC_PL2303GE = 0x23e3;
+    public const int PROLIFIC_PL2303GS = 0x23f3;
 
     public const int VENDOR_QINHENG = 0x1a86;
     public const int QINHENG_HL340 = 0x7523;
     public const int QINHENG_CH341A = 0x5523;
 
     public const int VENDOR_ELATEC = 0x09D8;
-    public const int ELATEC_TWN3_KEYBOARD = 0x0310;    // Not needed
+    public const int ELATEC_TWN3_KEYBOARD = 0x0310;
     public const int ELATEC_TWN3_CDC = 0x0320;
-    public const int ELATEC_TWN4_MIFARE_NFC = 0x0406;  // One off for an Elatec customer
-    public const int ELATEC_TWN4_KEYBOARD = 0x0410;    // Not needed
+    public const int ELATEC_TWN4_MIFARE_NFC = 0x0406;
+    public const int ELATEC_TWN4_KEYBOARD = 0x0410;
     public const int ELATEC_TWN4_CDC = 0x0420;
-    public const int ELATEC_TWN4_SC_READER = 0x0428;   // Uses CCID protocol, not serial
+    public const int ELATEC_TWN4_SC_READER = 0x0428;
 
-    // at www.linux-usb.org/usb.ids listed for NXP/LPC1768, but all processors supported by ARM mbed DAPLink firmware report these ids
     public const int VENDOR_ARM = 0x0d28;
     public const int ARM_MBED = 0x0204;
 

@@ -10,6 +10,7 @@ using FairScience.Device.UsbSerial.Platforms.Android.Drivers;
 using Java.Interop;
 using Object = Java.Lang.Object;
 
+// ReSharper disable once CheckNamespace
 namespace FairScience.Device.UsbSerial.Platforms.Android.Extensions;
 
 public sealed class UsbSerialPortInfo : Java.Lang.Object, IParcelable
