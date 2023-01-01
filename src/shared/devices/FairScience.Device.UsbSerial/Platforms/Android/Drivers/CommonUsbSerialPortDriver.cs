@@ -180,6 +180,18 @@ public abstract class CommonUsbSerialPortDriver : UsbSerialPortDriver
         return (null, -1);
     }
 
+    protected UsbInterface GetInterfaceByIndex(UsbDevice device, int index)
+    {
+        var usbInterface = device.GetInterface(index);
+     
+        if (ClaimInterface(usbInterface))
+        {
+            return usbInterface;
+        }
+
+        throw new UsbSerialRuntimeException($"Error during claim usb interface {usbInterface}");
+    }
+
     protected virtual bool ClaimInterface(UsbInterface usbInterface) =>
         Connection.ClaimInterface(usbInterface, true);
 

@@ -10,32 +10,30 @@ using FairScience.Device.Serial.Platforms.Android.Usb;
 using Microsoft.Extensions.Logging;
 
 // ReSharper disable once CheckNamespace
-namespace FairScience.Device.Serial.Platforms.Android.Drivers;
+namespace FairScience.Device.Serial.Platforms.Android.Drivers.STM32;
 
-[UsbSerialDriver(
-    UsbId.VENDOR_STM, new[]
-    {
-        UsbId.STM32_STLINK,
-        UsbId.STM32_VCOM
-    })
-]
-public class STM32SerialDriver : CommonUsbSerialPortDriver
+public class STM32UsbSerialPortDriver : CommonUsbSerialPortDriver
 {
+    #region Consts
     private const int USB_WRITE_TIMEOUT_MILLIS = 5000;
     private const int USB_RECIP_INTERFACE = 0x01;
     private const int USB_RT_AM = UsbConstants.UsbTypeClass | USB_RECIP_INTERFACE;
     private const int SET_LINE_CODING = 0x20;
     private const int SET_CONTROL_LINE_STATE = 0x22;
+    #endregion
 
+    #region Fields
     private int _controlInterfaceIndex;
     private bool _rts;
     private bool _dtr;
+    #endregion
 
-    public STM32SerialDriver(UsbDevice device, int portNumber, ILogger logger) :
+    public STM32UsbSerialPortDriver(UsbDevice device, int portNumber, ILogger logger) :
         base(device, portNumber, logger)
     {
     }
 
+    #region Overrides
     public override bool GetCD() => false;
     public override bool GetCTS() => false;
     public override bool GetDSR() => false;
@@ -88,16 +86,18 @@ public class STM32SerialDriver : CommonUsbSerialPortDriver
         byte[] msg =
         {
             (byte)(baudRate & 0xff),
-            (byte)((baudRate >> 8) & 0xff),
-            (byte)((baudRate >> 16) & 0xff),
-            (byte)((baudRate >> 24) & 0xff),
+            (byte)(baudRate >> 8 & 0xff),
+            (byte)(baudRate >> 16 & 0xff),
+            (byte)(baudRate >> 24 & 0xff),
             stopBitsBytes,
             parityBitesBytes,
             (byte)parameters.DataBits
         };
         SendAcmControlMessage(SET_LINE_CODING, 0, msg);
     }
+    #endregion
 
+    #region Private Methods
     private void SetDtrRts()
     {
         var value = (_rts ? 0x2 : 0) | (_dtr ? 0x1 : 0);
@@ -108,6 +108,7 @@ public class STM32SerialDriver : CommonUsbSerialPortDriver
         Connection.ControlTransfer((UsbAddressing)USB_RT_AM, request, value, _controlInterfaceIndex, buf,
             buf?.Length ?? 0,
             USB_WRITE_TIMEOUT_MILLIS);
+    #endregion
 
 }
 

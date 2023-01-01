@@ -15,16 +15,6 @@ using Math = System.Math;
 // ReSharper disable once CheckNamespace
 namespace FairScience.Device.Serial.Platforms.Android.Drivers.Ftdi;
 
-[UsbSerialDriver(
-    UsbId.VENDOR_FTDI, new[]
-    {
-        UsbId.FTDI_FT232R,
-        UsbId.FTDI_FT232H,
-        UsbId.FTDI_FT2232H,
-        UsbId.FTDI_FT4232H,
-        UsbId.FTDI_FT231X,
-    }
-)]
 public class FtdiUsbSerialPortDriver : CommonUsbSerialPortDriver
 {
     #region CONSTS
