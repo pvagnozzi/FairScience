@@ -26,7 +26,7 @@ public static class UsbId
     public const int ARDUINO_MEGA_ADK = 0x003f;
     public const int ARDUINO_MEGA_2560_R3 = 0x0042;
     public const int ARDUINO_UNO_R3 = 0x0043;
-    public const int ARDUINO_MEGA_ADK_R3 = 0x0044;
+    //public const int ARDUINO_MEGA_ADK_R3 = 0x0044;
     public const int ARDUINO_SERIAL_ADAPTER_R3 = 0x0044;
     public const int ARDUINO_LEONARDO = 0x8036;
     public const int ARDUINO_MICRO = 0x8037;

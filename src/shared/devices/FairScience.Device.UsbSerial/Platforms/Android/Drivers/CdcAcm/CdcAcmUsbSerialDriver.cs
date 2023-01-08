@@ -14,7 +14,7 @@ namespace FairScience.Device.Serial.Platforms.Android.Drivers.CdcAcm;
         UsbId.ARDUINO_SERIAL_ADAPTER,
         UsbId.ARDUINO_SERIAL_ADAPTER_R3,
         UsbId.ARDUINO_MEGA_ADK,
-        UsbId.ARDUINO_MEGA_ADK_R3,
+        //UsbId.ARDUINO_MEGA_ADK_R3,
         UsbId.ARDUINO_LEONARDO,
         UsbId.ARDUINO_MICRO,
     })

@@ -3,15 +3,19 @@ using Android.Hardware.Usb;
 using FairScience.Device.Serial.Platforms.Android.Usb;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
+using Android.Content;
 
-namespace FairScience.Device.Serial.Platforms.Android;
+// ReSharper disable once CheckNamespace
+namespace FairScience.Device.Serial;
 
-public sealed class SerialPortProvider : ISerialPortProvider
+public class SerialPortProvider : ISerialPortProvider
 {
     private readonly IDictionary<string, ISerialPort> _serialPorts = new ConcurrentDictionary<string, ISerialPort>();
     
     public SerialPortProvider(UsbManager usbManager, ILogger logger = null)
     {
+        
+
         UsbManager = usbManager;
         Logger = logger;
     }
@@ -51,7 +55,7 @@ public sealed class SerialPortProvider : ISerialPortProvider
     private IEnumerable<IUsbSerialDriver> ScanDrivers()
     {
         var prober = new UsbSerialProber(Logger);
-        return prober.FindAllDrivers(UsbManager);
+        return prober.Scan(UsbManager);
     }
 }
 

@@ -4,8 +4,7 @@ using Microsoft.Extensions.Logging;
 // ReSharper disable once CheckNamespace
 namespace FairScience.Device.Serial;
 
-// All the code in this file is only included on Android.
-public partial class SerialPort : ISerialPort
+public class SerialPort : ISerialPort
 {
     protected internal SerialPort(
         IUsbSerialPortDriver driver, 
@@ -23,6 +22,7 @@ public partial class SerialPort : ISerialPort
     public IUsbSerialPortDriver Driver { get; }
     #endregion
 
+    #region Methods
     public virtual void Open(SerialPortParameters parameters)
     {
         Logger.LogDebug("SerialPort {portName}: open {parameters}", PortName, parameters);
@@ -60,8 +60,7 @@ public partial class SerialPort : ISerialPort
 
         return Driver.Write(data);
     }
-        
-
+    
     public virtual void Close()
     {
         Logger.LogDebug("SerialPort {portName}: close", PortName);
@@ -79,4 +78,5 @@ public partial class SerialPort : ISerialPort
         Driver?.Dispose();
         GC.SuppressFinalize(this);
     }
+    #endregion
 }
