@@ -47,8 +47,8 @@ namespace FairScience.Device.Serial.Platforms.Android.Drivers.CdcAcm;
 )]
 public class CdcmAcmUsbSerialDriver : CommonUsbSerialDriver
 {
-    public CdcmAcmUsbSerialDriver(UsbDevice device, ILogger logger) : base(device, logger,
-        typeof(CdcAcmUsbSerialPortDriver))
+    public CdcmAcmUsbSerialDriver(UsbManager manager, UsbDevice device, ILogger logger) : 
+	    base(manager, device, logger, typeof(CdcAcmUsbSerialPortDriver))
     {
     }
 }

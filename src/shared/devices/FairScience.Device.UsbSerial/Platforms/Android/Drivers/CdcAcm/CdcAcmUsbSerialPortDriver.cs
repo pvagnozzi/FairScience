@@ -35,10 +35,11 @@ public class CdcAcmUsbSerialPortDriver : CommonUsbSerialPortDriver
     #endregion
 
     public CdcAcmUsbSerialPortDriver(
+	    UsbManager manager,
         UsbDevice device,
         int portNumber, 
         ILogger logger) :
-        base(device, portNumber, logger)
+        base(manager, device, portNumber, logger)
     {
         
     }
@@ -125,7 +126,7 @@ public class CdcAcmUsbSerialPortDriver : CommonUsbSerialPortDriver
     }
 
     private void SendAcmControlMessage(int request, int value, byte[] buf) =>
-        Connection.ControlTransfer((UsbAddressing)0x21,
+        UsbConnection.ControlTransfer((UsbAddressing)0x21,
             request, value, 0, buf, buf?.Length ?? 0, 5000);
 
         private void OpenSingleInterface(UsbDevice device)

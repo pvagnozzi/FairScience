@@ -4,11 +4,12 @@ namespace FairScience.Device.Serial.Platforms.Android.Usb;
 
 public interface IUsbSerialPortDriver : IDisposable
 {
-    UsbDevice Device { get; }
-    UsbDeviceConnection Connection { get; }
+    UsbManager UsbManager { get; }
+    UsbDevice UsbDevice { get; }
+    UsbDeviceConnection UsbConnection { get; }
+
     bool IsOpen { get; }
     int PortNumber { get; }
-
 
     void Open(UsbManager usbManager, SerialPortParameters parameters);
     void Close();

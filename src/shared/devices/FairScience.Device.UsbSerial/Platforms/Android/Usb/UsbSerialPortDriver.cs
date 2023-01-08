@@ -27,20 +27,23 @@ public abstract class UsbSerialPortDriver : IUsbSerialPortDriver
     protected const int STOPBITS_2 = 2;
 
     protected UsbSerialPortDriver(
+        UsbManager manager,
         UsbDevice device,
         int portNumber,
         ILogger logger)
     {
-        Device = device;
+        UsbManager = manager;
+        UsbDevice = device;
         PortNumber = portNumber;
         Logger = logger;
     }
 
     #region Properties
     public ILogger Logger { get; }
-    public UsbDevice Device { get; }
-    public UsbDeviceConnection Connection { get; protected set; }
-    public virtual bool IsOpen => Connection is not null;
+    public UsbManager UsbManager { get; }
+    public UsbDevice UsbDevice { get; }
+    public UsbDeviceConnection UsbConnection { get; protected set; }
+    public virtual bool IsOpen => UsbConnection is not null;
     public int PortNumber { get; }
     #endregion
 

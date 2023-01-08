@@ -8,14 +8,22 @@ public static class AssemblyExtensions
         type.GetInterfaces().Any(x => x == interfaceType);
 
     public static IEnumerable<Type> FindSubClasses(
-        this Assembly assembly,
-        Type baseType) =>
-        assembly.GetTypes().Where(x => x.IsSubclassOf(baseType));
+	    this Assembly assembly,
+	    Type baseType, bool concrete = true)
+    {
+	    var types = assembly.GetTypes().Where(x => x.IsSubclassOf(baseType));
+        return concrete ? types.Where(x => !x.IsAbstract) : types;
+    }
 
     public static IEnumerable<Type> FindImplementations(
-        this Assembly assembly,
-        Type baseType) =>
-        assembly.GetTypes().Where(x => x.Implements(baseType));
+	    this Assembly assembly,
+	    Type baseType,
+	    bool concrete = true)
+    {
+	    var types = assembly.GetTypes().Where(x => x.Implements(baseType));
+	    return concrete ? types.Where(x => !x.IsAbstract) : types;
+    }
+        
 
 
 }

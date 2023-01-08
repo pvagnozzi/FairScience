@@ -32,4 +32,8 @@
 	  <Folder Include="Platforms\Windows\" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\FairScience\FairScience.csproj" />
+	</ItemGroup>
+
 </Project>

@@ -28,8 +28,8 @@ public class STM32UsbSerialPortDriver : CommonUsbSerialPortDriver
     private bool _dtr;
     #endregion
 
-    public STM32UsbSerialPortDriver(UsbDevice device, int portNumber, ILogger logger) :
-        base(device, portNumber, logger)
+    public STM32UsbSerialPortDriver(UsbManager manager, UsbDevice device, int portNumber, ILogger logger) :
+        base(manager, device, portNumber, logger)
     {
     }
 
@@ -105,10 +105,9 @@ public class STM32UsbSerialPortDriver : CommonUsbSerialPortDriver
     }
 
     private void SendAcmControlMessage(int request, int value, byte[] buf) =>
-        Connection.ControlTransfer((UsbAddressing)USB_RT_AM, request, value, _controlInterfaceIndex, buf,
+        UsbConnection.ControlTransfer((UsbAddressing)USB_RT_AM, request, value, _controlInterfaceIndex, buf,
             buf?.Length ?? 0,
             USB_WRITE_TIMEOUT_MILLIS);
     #endregion
-
 }
 

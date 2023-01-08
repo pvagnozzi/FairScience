@@ -16,8 +16,8 @@ namespace FairScience.Device.Serial.Platforms.Android.Drivers.Ftdi;
 )]
 public class STM32UsbSerialDriver : CommonUsbSerialDriver
 {
-    public STM32UsbSerialDriver(UsbDevice device, ILogger logger) : base(device, logger,
-        typeof(FtdiUsbSerialPortDriver))
+    public STM32UsbSerialDriver(UsbManager manager, UsbDevice device, ILogger logger) : 
+	    base(manager, device, logger, typeof(FtdiUsbSerialPortDriver))
     {
     }
 }

@@ -15,7 +15,7 @@ namespace FairScience.Device.Serial.Platforms.Android.Drivers.Prolific;
 //public ProlificSerialDriver(UsbDevice device) :
 //    base(device) 
 //{
-//    Ports.Add(new ProlificSerialPort(Device, 0, this));
+//    Ports.Add(new ProlificSerialPort(UsbDevice, 0, this));
 //}
 
 //public static Dictionary<int, int[]> GetSupportedDevices() =>
@@ -105,8 +105,8 @@ public class ProlificUsbSerialPortDriver : CommonUsbSerialPortDriver
     private UsbEndpoint _interruptEndpoint;
     private int _controlLinesValue;
 
-    public ProlificUsbSerialPortDriver(UsbDevice device, int portNumber, ILogger logger)
-        : base(device, portNumber, logger)
+    public ProlificUsbSerialPortDriver(UsbManager manager, UsbDevice device, int portNumber, ILogger logger)
+        : base(manager, device, portNumber, logger)
     {
     }
 
@@ -151,7 +151,7 @@ public class ProlificUsbSerialPortDriver : CommonUsbSerialPortDriver
             }
         }
 
-        var rawDescriptors = Connection.GetRawDescriptors();
+        var rawDescriptors = UsbConnection.GetRawDescriptors();
         if (rawDescriptors == null || rawDescriptors.Length < 14)
         {
             throw new IOException("Could not get device descriptors");
@@ -160,7 +160,7 @@ public class ProlificUsbSerialPortDriver : CommonUsbSerialPortDriver
         var deviceVersion = (rawDescriptors[13] << 8) + rawDescriptors[12];
         var maxPacketSize0 = rawDescriptors[7];
 
-        if (Device.DeviceClass == UsbClass.Comm || maxPacketSize0 != 64)
+        if (UsbDevice.DeviceClass == UsbClass.Comm || maxPacketSize0 != 64)
         {
             _deviceType = DeviceType.DEVICE_TYPE_01;
         }
@@ -265,7 +265,7 @@ public class ProlificUsbSerialPortDriver : CommonUsbSerialPortDriver
         int value, int index, int length)
     {
         var buffer = new byte[length];
-        var result = Connection.ControlTransfer((UsbAddressing)requestType, request, value,
+        var result = UsbConnection.ControlTransfer((UsbAddressing)requestType, request, value,
             index, buffer, length, USB_READ_TIMEOUT_MILLIS);
         if (result != length)
         {
@@ -321,7 +321,7 @@ public class ProlificUsbSerialPortDriver : CommonUsbSerialPortDriver
     private int GetStatus()
     {
         var buffer = new byte[STATUS_BUFFER_SIZE];
-        var readBytesCount = Connection.BulkTransfer(_interruptEndpoint, buffer,STATUS_BUFFER_SIZE,500);
+        var readBytesCount = UsbConnection.BulkTransfer(_interruptEndpoint, buffer,STATUS_BUFFER_SIZE,500);
         var status = 0;
 
         switch (readBytesCount)
@@ -374,7 +374,7 @@ public class ProlificUsbSerialPortDriver : CommonUsbSerialPortDriver
         int value, int index, byte[] data)
     {
         var length = data?.Length ?? 0;
-        var result = Connection.ControlTransfer((UsbAddressing)requestType, request, value,
+        var result = UsbConnection.ControlTransfer((UsbAddressing)requestType, request, value,
             index, data, length, USB_WRITE_TIMEOUT_MILLIS);
         if (result != length)
         {

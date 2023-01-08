@@ -13,8 +13,8 @@ namespace FairScience.Device.Serial.Platforms.Android.Drivers.Cp21xx;
 })]
 public class Cp21xxUsbSerialDriver : CommonUsbSerialDriver
 {
-    public Cp21xxUsbSerialDriver(UsbDevice device, ILogger logger) : base(device, logger,
-        typeof(Cp21xxUsbSerialPortDriver))
+    public Cp21xxUsbSerialDriver(UsbManager manager, UsbDevice device, ILogger logger) : 
+	    base(manager, device, logger, typeof(Cp21xxUsbSerialPortDriver))
     {
     }
 }

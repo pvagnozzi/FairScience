@@ -48,8 +48,8 @@ public class Cp21xxUsbSerialPortDriver : CommonUsbSerialPortDriver
     private const int CONTROL_WRITE_RTS = 0x0200;
     #endregion
 
-    public Cp21xxUsbSerialPortDriver(UsbDevice device, int portNumber, ILogger logger) : 
-        base(device, portNumber, logger)
+    public Cp21xxUsbSerialPortDriver(UsbManager manager, UsbDevice device, int portNumber, ILogger logger) : 
+        base(manager, device, portNumber, logger)
     {
     }
 
@@ -160,7 +160,7 @@ public class Cp21xxUsbSerialPortDriver : CommonUsbSerialPortDriver
     private int GetStatus()
     {
         var data = new byte[1];
-        var result = Connection.ControlTransfer((UsbAddressing)REQTYPE_DEVICE_TO_HOST, GET_MODEM_STATUS_REQUEST,
+        var result = UsbConnection.ControlTransfer((UsbAddressing)REQTYPE_DEVICE_TO_HOST, GET_MODEM_STATUS_REQUEST,
             0, 0, data, data.Length, USB_WRITE_TIMEOUT_MILLIS);
         if (result != 1)
         {
@@ -185,7 +185,7 @@ public class Cp21xxUsbSerialPortDriver : CommonUsbSerialPortDriver
             (byte)((baudRate >> 16) & 0xff),
             (byte)((baudRate >> 24) & 0xff)
         };
-        var ret = Connection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, SILABSER_SET_BAUDRATE,
+        var ret = UsbConnection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, SILABSER_SET_BAUDRATE,
             0, 0, data, 4, USB_WRITE_TIMEOUT_MILLIS);
         if (ret < 0)
         {
@@ -195,7 +195,7 @@ public class Cp21xxUsbSerialPortDriver : CommonUsbSerialPortDriver
 
 
     private void SetConfigSingle(int request, int value) =>
-        Connection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, request, value,
+        UsbConnection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, request, value,
             0, null, 0, USB_WRITE_TIMEOUT_MILLIS);
     #endregion
 }

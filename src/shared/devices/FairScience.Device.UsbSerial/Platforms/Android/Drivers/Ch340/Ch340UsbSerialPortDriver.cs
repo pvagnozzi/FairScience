@@ -43,12 +43,10 @@ public class Ch340UsbSerialPortDriver : CommonUsbSerialPortDriver
     private bool _rts;
     #endregion
 
-    
-    public Ch340UsbSerialPortDriver(UsbDevice device, int portNumber, ILogger logger) : 
-        base(device, portNumber, logger)
+    public Ch340UsbSerialPortDriver(UsbManager manager, UsbDevice device, int portNumber, ILogger logger) : 
+        base(manager, device, portNumber, logger)
     {
     }
-
 
     #region Overrides
     public override bool GetCD() => false;
@@ -70,7 +68,7 @@ public class Ch340UsbSerialPortDriver : CommonUsbSerialPortDriver
 
     protected override void SetInterfaces(UsbDevice device)
     {
-        var dataIface = Device.GetInterface(Device.InterfaceCount - 1);
+        var dataIface = UsbDevice.GetInterface(UsbDevice.InterfaceCount - 1);
 
         for (var i = 0; i < dataIface.EndpointCount; i++)
         {
@@ -132,20 +130,19 @@ public class Ch340UsbSerialPortDriver : CommonUsbSerialPortDriver
     }
     #endregion
 
-
     #region Private Methods
 
     private int ControlOut(int request, int value, int index)
     {
         const int REQTYPE_HOST_TO_DEVICE = UsbConstants.UsbTypeVendor | UsbSupport.UsbDirOut;
-        return Connection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, request,
+        return UsbConnection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, request,
             value, index, null, 0, USB_TIMEOUT_MILLIS);
     }
 
     private int ControlIn(int request, int value, int index, byte[] buffer)
     {
         const int REQTYPE_HOST_TO_DEVICE = UsbConstants.UsbTypeVendor | UsbSupport.UsbDirIn;
-        return Connection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, request,
+        return UsbConnection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, request,
             value, index, buffer, buffer.Length, USB_TIMEOUT_MILLIS);
     }
 
@@ -246,7 +243,6 @@ public class Ch340UsbSerialPortDriver : CommonUsbSerialPortDriver
         throw new IOException("Baud rate " + baudRate + " currently not supported");
     }
     #endregion
-
 }
 
 

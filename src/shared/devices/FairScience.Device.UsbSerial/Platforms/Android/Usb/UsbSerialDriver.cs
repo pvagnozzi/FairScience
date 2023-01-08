@@ -7,13 +7,16 @@ public abstract class UsbSerialDriver : IUsbSerialDriver
 {
     private readonly List<IUsbSerialPortDriver> _ports = new();
 
-    protected UsbSerialDriver(UsbDevice device, ILogger logger)
+    protected UsbSerialDriver(UsbManager manager, UsbDevice usbDevice, ILogger logger)
     {
-        Device = device;
+	    UsbManager = manager;
+        UsbDevice = usbDevice;
         Logger = logger;
     }
 
-    public UsbDevice Device { get; }
+    public UsbManager UsbManager { get; }
+
+    public UsbDevice UsbDevice { get; }
 
     public ILogger Logger { get; }
 
@@ -40,12 +43,12 @@ public abstract class UsbSerialDriver : IUsbSerialDriver
 
     protected virtual IEnumerable<IUsbSerialPortDriver> ScanPorts()
     {
-        for (var port = 0; port < Device.InterfaceCount; port++)
+        for (var port = 0; port < UsbDevice.InterfaceCount; port++)
         {
-            yield return GetPort(Device, port, Logger);
+            yield return GetPort(UsbManager, UsbDevice, port, Logger);
         }
     }
 
-    protected abstract IUsbSerialPortDriver GetPort(UsbDevice device, int port, ILogger logger);
+    protected abstract IUsbSerialPortDriver GetPort(UsbManager manager, UsbDevice device, int port, ILogger logger);
 }
 

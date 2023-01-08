@@ -88,7 +88,7 @@ internal sealed class UsbSerialProber
 
         try
         {
-            return (IUsbSerialDriver)Activator.CreateInstance(driverType, usbDevice, Logger);
+            return (IUsbSerialDriver)Activator.CreateInstance(driverType, usbManager, usbDevice, Logger);
         }
         catch (NoSuchMethodException e)
         {

@@ -15,10 +15,11 @@ public abstract class CommonUsbSerialPortDriver : UsbSerialPortDriver
     private byte[] _writeBuffer = Array.Empty<byte>();
 
     protected CommonUsbSerialPortDriver(
+        UsbManager manager,
         UsbDevice device,
         int portNumber,
         ILogger logger) :
-        base(device, portNumber, logger)
+        base(manager, device, portNumber, logger)
     {
     }
 
@@ -37,8 +38,8 @@ public abstract class CommonUsbSerialPortDriver : UsbSerialPortDriver
 
         var connection = OpenConnection(usbManager);
         SetParameters(connection, parameters);
-        Connection = connection;
-        SetInterfaces(Device);
+        UsbConnection = connection;
+        SetInterfaces(UsbDevice);
 
         lock (_readBufferLock)
         {
@@ -125,10 +126,10 @@ public abstract class CommonUsbSerialPortDriver : UsbSerialPortDriver
     }
 
     protected virtual int ReadFromDevice(byte[] buffer) =>
-        Connection.BulkTransfer(ReadEndPoint, buffer, buffer.Length, 10);
+        UsbConnection.BulkTransfer(ReadEndPoint, buffer, buffer.Length, 10);
 
     protected virtual int WriteToDevice(byte[] buffer) =>
-        Connection.BulkTransfer(WriteEndPoint, buffer, buffer.Length, 10);
+        UsbConnection.BulkTransfer(WriteEndPoint, buffer, buffer.Length, 10);
 
     protected virtual int CopyToReadBuffer(byte[] source, byte[] destination)
     {
@@ -146,15 +147,15 @@ public abstract class CommonUsbSerialPortDriver : UsbSerialPortDriver
 
     protected virtual UsbDeviceConnection OpenConnection(UsbManager usbManager)
     {
-        var connection = usbManager.OpenDevice(Device);
+        var connection = usbManager.OpenDevice(UsbDevice);
 
         return connection;
     }
 
     protected virtual void CloseConnection()
     {
-        Connection.Close();
-        Connection = null;
+        UsbConnection.Close();
+        UsbConnection = null;
     }
 
     protected abstract void SetInterfaces(UsbDevice device);
@@ -193,7 +194,7 @@ public abstract class CommonUsbSerialPortDriver : UsbSerialPortDriver
     }
 
     protected virtual bool ClaimInterface(UsbInterface usbInterface) =>
-        Connection.ClaimInterface(usbInterface, true);
+        UsbConnection.ClaimInterface(usbInterface, true);
 
     protected abstract void SetParameters(
         UsbDeviceConnection connection, 
@@ -208,7 +209,7 @@ public abstract class CommonUsbSerialPortDriver : UsbSerialPortDriver
         int length = -1,
         int timeout = -1)
     {
-        var result = Connection.ControlTransfer(
+        var result = UsbConnection.ControlTransfer(
             requestType, 
             request,
             value, 

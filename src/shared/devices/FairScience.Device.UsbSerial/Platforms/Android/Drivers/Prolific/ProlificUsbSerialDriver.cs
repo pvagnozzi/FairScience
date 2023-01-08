@@ -17,8 +17,8 @@ namespace FairScience.Device.Serial.Platforms.Android.Drivers.Prolific;
 })]
 public class ProlificUsbSerialDriver : CommonUsbSerialDriver
 {
-    public ProlificUsbSerialDriver(UsbDevice device, ILogger logger) : base(device, logger,
-        typeof(ProlificUsbSerialPortDriver))
+    public ProlificUsbSerialDriver(UsbManager manager, UsbDevice device, ILogger logger) : 
+	    base(manager, device, logger, typeof(ProlificUsbSerialPortDriver))
     {
     }
 }

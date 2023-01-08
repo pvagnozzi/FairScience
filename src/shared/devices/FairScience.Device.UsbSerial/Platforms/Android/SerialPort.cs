@@ -16,30 +16,31 @@ public class SerialPort : ISerialPort
 
     #region Properties
     public ILogger Logger { get; }
-    public string PortName => $"{Driver.Device.DeviceId}/{Driver.PortNumber}";
+    public string PortName => $"{Driver.UsbDevice.DeviceId}/{Driver.PortNumber}";
     public bool IsOpen => Driver.IsOpen;
     public SerialPortParameters Parameters { get; private set; }
     public IUsbSerialPortDriver Driver { get; }
     #endregion
 
     #region Methods
-    public virtual void Open(SerialPortParameters parameters)
+    public virtual void Open(SerialPortParameters parameters = null)
     {
-        Logger.LogDebug("SerialPort {portName}: open {parameters}", PortName, parameters);
+        parameters ??= new SerialPortParameters();
+        Logger?.LogDebug("SerialPort {portName}: open {parameters}", PortName, parameters);
 
         if (IsOpen)
         {
-            Logger.LogDebug("SerialPort {portName}: already open", PortName);
+            Logger?.LogDebug("SerialPort {portName}: already open", PortName);
             return;
         }
 
         Parameters = parameters;
-        Driver.Open(null, parameters);
+        Driver.Open(Driver.UsbManager, parameters);
     }
 
     public virtual int Read(byte[] data)
     {
-        Logger.LogDebug("SerialPort {portName}: read", PortName);
+        Logger?.LogDebug("SerialPort {portName}: read", PortName);
 
         if (!IsOpen)
         {
@@ -51,7 +52,7 @@ public class SerialPort : ISerialPort
 
     public virtual int Write(byte[] data)
     {
-        Logger.LogDebug("SerialPort {portName}: write", PortName);
+        Logger?.LogDebug("SerialPort {portName}: write", PortName);
 
         if (!IsOpen)
         {
@@ -63,7 +64,7 @@ public class SerialPort : ISerialPort
     
     public virtual void Close()
     {
-        Logger.LogDebug("SerialPort {portName}: close", PortName);
+        Logger?.LogDebug("SerialPort {portName}: close", PortName);
 
         if (!IsOpen)
         {

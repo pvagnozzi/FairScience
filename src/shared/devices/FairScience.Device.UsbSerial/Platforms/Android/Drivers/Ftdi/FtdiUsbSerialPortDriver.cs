@@ -51,10 +51,11 @@ public class FtdiUsbSerialPortDriver : CommonUsbSerialPortDriver
     #endregion
 
     public FtdiUsbSerialPortDriver(
+	    UsbManager manager,
         UsbDevice device,
         int portNumber,
         ILogger logger) :
-        base(device, portNumber, logger)
+        base(manager, device, portNumber, logger)
     {
     }
 
@@ -164,7 +165,7 @@ public class FtdiUsbSerialPortDriver : CommonUsbSerialPortDriver
 
     public override void SetDTR(bool value)
     {
-        var result = Connection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, MODEM_CONTROL_REQUEST,
+        var result = UsbConnection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, MODEM_CONTROL_REQUEST,
                             value ? MODEM_CONTROL_DTR_ENABLE : MODEM_CONTROL_DTR_DISABLE, PortNumber + 1, null, 0, USB_WRITE_TIMEOUT_MILLIS);
         if (result != 0)
         {
@@ -180,7 +181,7 @@ public class FtdiUsbSerialPortDriver : CommonUsbSerialPortDriver
 
     public override void SetRTS(bool value)
     {
-        var result = Connection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, MODEM_CONTROL_REQUEST,
+        var result = UsbConnection.ControlTransfer((UsbAddressing)REQTYPE_HOST_TO_DEVICE, MODEM_CONTROL_REQUEST,
                 value ? MODEM_CONTROL_RTS_ENABLE : MODEM_CONTROL_RTS_DISABLE, PortNumber + 1, null, 0, USB_WRITE_TIMEOUT_MILLIS);
         if (result != 0)
         {

@@ -1,9 +1,9 @@
-﻿using Android.Content.Res;
+﻿using Android.App;
+using Android.Content;
 using Android.Hardware.Usb;
 using FairScience.Device.Serial.Platforms.Android.Usb;
 using Microsoft.Extensions.Logging;
 using System.Collections.Concurrent;
-using Android.Content;
 
 // ReSharper disable once CheckNamespace
 namespace FairScience.Device.Serial;
@@ -11,11 +11,23 @@ namespace FairScience.Device.Serial;
 public class SerialPortProvider : ISerialPortProvider
 {
     private readonly IDictionary<string, ISerialPort> _serialPorts = new ConcurrentDictionary<string, ISerialPort>();
+
+    public SerialPortProvider(Activity activity = null, ILogger logger = null)
+    {
+        activity ??= Platform.CurrentActivity;
+        if (activity is null)
+        {
+            throw new ArgumentException("No current activity available");
+        }
+
+        var usbManager = (UsbManager)activity.GetSystemService (Context.UsbService);
+        UsbManager = usbManager;
+        Logger = logger;
+    }
     
     public SerialPortProvider(UsbManager usbManager, ILogger logger = null)
     {
         
-
         UsbManager = usbManager;
         Logger = logger;
     }
@@ -46,7 +58,7 @@ public class SerialPortProvider : ISerialPortProvider
     {
         if (!_serialPorts.TryGetValue(portName, out var port))
         {
-            throw new Resources.NotFoundException($"SerialPort {portName}");
+            throw new KeyNotFoundException($"SerialPort {portName}");
         }
 
         return port;

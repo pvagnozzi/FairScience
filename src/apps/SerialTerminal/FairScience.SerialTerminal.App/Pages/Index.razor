@@ -9,8 +9,23 @@ Welcome to your new app.
 
 @code{
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
+        var serialPortProvider = new SerialPortProvider();
+        var portNames = serialPortProvider.GetPortNames();
+
+        if (!portNames.Any())
+        {
+            return;
+        }
+
+        var portName = portNames.First();
+        var port = serialPortProvider.GetSerialPort(portName);
+
+        port.Open();
+        var driver = new SerialPortTextDriver(port);
+        driver.WriteLine("G01");
+        port.Close();
     }
 
 }
